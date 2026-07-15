@@ -34,7 +34,7 @@ class SnakeGame {
 
   init() {
     this.attachEvents();
-    this.reset();
+    this.reset(true);
     this.onResize();
     requestAnimationFrame(this.loop);
   }
@@ -61,7 +61,7 @@ class SnakeGame {
     this.canvas.addEventListener("pointerleave", this.onPointerUp);
   }
 
-  reset(startRunning = false) {
+  reset(startRunning = true) {
     const midX = Math.floor(this.cols / 2);
     const midY = Math.floor(this.rows / 2);
     this.snake = [
