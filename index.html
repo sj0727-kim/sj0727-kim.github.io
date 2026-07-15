@@ -68,24 +68,35 @@
       <div class="games-header">
         <div>
           <h3>지렁이 게임</h3>
-          <p>이 섹션은 다음 루프에서 실제 게임 로직과 터치 조작을 얹을 수 있도록 뼈대만 제공합니다.</p>
+          <p>키보드, WASD, 화면 버튼, 스와이프로 조작하는 지렁이 게임입니다. 랜덤하게 움직이는 적이 함께 등장합니다.</p>
         </div>
-        <a class="button secondary" href="#home">상단으로</a>
+        <div class="game-meta">
+          <span class="pill" id="score-pill">Score 0</span>
+          <span class="pill" id="status-pill">Ready</span>
+        </div>
       </div>
-      <div class="game-shell" aria-label="게임 영역 자리">
-        <div class="game-canvas-placeholder">
-          <span>GAME BOARD</span>
-          <small>키보드와 터치 조작 예정</small>
+      <div class="game-shell" aria-label="게임 영역">
+        <div class="game-canvas-wrap">
+          <canvas id="game-canvas" width="480" height="480" aria-label="지렁이 게임 보드"></canvas>
         </div>
         <div class="game-info">
-          <p>상태: 준비됨</p>
-          <p>점수: 0</p>
-          <p>적: 랜덤 이동 기능 예정</p>
+          <p>조작: 방향키, WASD, 아래 버튼, 스와이프</p>
+          <p>목표: 먹이를 먹어 점수를 올리고 랜덤 이동 적을 피하세요.</p>
+          <button class="button primary game-button" id="restart-btn" type="button">게임 다시 시작</button>
+          <div class="touch-controls" aria-label="터치 조작 버튼">
+            <button class="touch-btn" data-dir="up" type="button">▲</button>
+            <div class="touch-row">
+              <button class="touch-btn" data-dir="left" type="button">◀</button>
+              <button class="touch-btn" data-dir="down" type="button">▼</button>
+              <button class="touch-btn" data-dir="right" type="button">▶</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
+  <script src="game.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
