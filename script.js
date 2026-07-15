@@ -16,6 +16,8 @@ const gameCanvas = document.getElementById("game-canvas");
 const scorePill = document.getElementById("score-pill");
 const statusPill = document.getElementById("status-pill");
 const restartButton = document.getElementById("restart-btn");
+const pauseButton = document.getElementById("pause-btn");
+const stopButton = document.getElementById("stop-btn");
 const touchButtons = document.querySelectorAll(".touch-btn");
 
 if (gameCanvas && window.SnakeGame) {
@@ -24,6 +26,8 @@ if (gameCanvas && window.SnakeGame) {
     scorePill,
     statusPill,
     restartButton,
+    pauseButton,
+    stopButton,
     touchButtons,
   });
   game.init();

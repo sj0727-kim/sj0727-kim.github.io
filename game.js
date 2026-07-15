@@ -5,6 +5,8 @@ class SnakeGame {
     this.scorePill = options.scorePill;
     this.statusPill = options.statusPill;
     this.restartButton = options.restartButton;
+    this.pauseButton = options.pauseButton;
+    this.stopButton = options.stopButton;
     this.touchButtons = options.touchButtons;
     this.cols = 20;
     this.rows = 20;
@@ -13,6 +15,7 @@ class SnakeGame {
     this.lastTick = 0;
     this.lastEnemyTick = 0;
     this.running = false;
+    this.paused = false;
     this.gameOver = false;
     this.score = 0;
     this.direction = { x: 1, y: 0 };
@@ -29,6 +32,8 @@ class SnakeGame {
     this.onPointerDown = this.onPointerDown.bind(this);
     this.onPointerMove = this.onPointerMove.bind(this);
     this.onPointerUp = this.onPointerUp.bind(this);
+    this.togglePause = this.togglePause.bind(this);
+    this.stopGame = this.stopGame.bind(this);
     this.loop = this.loop.bind(this);
   }
 
@@ -43,6 +48,8 @@ class SnakeGame {
     document.addEventListener("keydown", this.onKeyDown);
     window.addEventListener("resize", this.onResize);
     this.restartButton?.addEventListener("click", () => this.reset(true));
+    this.pauseButton?.addEventListener("click", this.togglePause);
+    this.stopButton?.addEventListener("click", this.stopGame);
 
     this.touchButtons.forEach((button) => {
       button.addEventListener("click", () => {
@@ -73,19 +80,47 @@ class SnakeGame {
     this.nextDirection = { x: 1, y: 0 };
     this.pendingDirection = null;
     this.score = 0;
+    this.paused = false;
     this.gameOver = false;
     this.running = startRunning;
+    this.lastTick = 0;
+    this.lastEnemyTick = 0;
     this.placeFood();
     this.placeEnemy();
     this.updateHud(startRunning ? "Running" : "Ready");
+    this.syncControls();
     this.draw();
   }
 
   start() {
-    if (!this.running && !this.gameOver) {
+    if (!this.gameOver) {
       this.running = true;
+      this.paused = false;
+      this.updateHud("Running");
+      this.syncControls();
+    }
+  }
+
+  togglePause() {
+    if (this.gameOver) {
+      return;
+    }
+    if (this.running) {
+      this.running = false;
+      this.paused = true;
+      this.updateHud("Paused");
+    } else if (this.paused) {
+      this.running = true;
+      this.paused = false;
       this.updateHud("Running");
     }
+    this.syncControls();
+  }
+
+  stopGame() {
+    this.reset(false);
+    this.updateHud("Stopped");
+    this.syncControls();
   }
 
   updateHud(status) {
@@ -94,6 +129,12 @@ class SnakeGame {
     }
     if (this.statusPill) {
       this.statusPill.textContent = status;
+    }
+  }
+
+  syncControls() {
+    if (this.pauseButton) {
+      this.pauseButton.textContent = this.paused ? "재개" : "일시 정지";
     }
   }
 
@@ -248,7 +289,9 @@ class SnakeGame {
   endGame(reason) {
     this.gameOver = true;
     this.running = false;
+    this.paused = false;
     this.updateHud(`Game Over: ${reason}`);
+    this.syncControls();
   }
 
   wrap(point) {

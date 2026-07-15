@@ -300,6 +300,11 @@ main {
   width: 100%;
 }
 
+.game-actions {
+  display: grid;
+  gap: 10px;
+}
+
 .touch-controls {
   display: grid;
   gap: 10px;
